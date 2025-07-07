@@ -1,0 +1,29 @@
+.btn-elimina {
+  background-color: #dc2626;
+  color: white;
+  border: none;
+}
+
+.btn-elimina:hover {
+  background-color: #b91c1c; 
+}
+
+.btn-modifica {
+  background-color: #16a34a; 
+  color: white;
+  border: none;
+}
+
+.btn-modifica:hover {
+  background-color: #15803d; 
+}
+
+.btn-crea {
+  background-color: #3b82f6; 
+  color: white;
+  border: none;
+}
+
+.btn-crea:hover {
+  background-color: #2563eb;
+}

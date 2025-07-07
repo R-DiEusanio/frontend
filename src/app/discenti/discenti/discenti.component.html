@@ -1,0 +1,119 @@
+<div class="max-w-6xl mx-auto p-8">
+  <h1 class="text-4xl font-bold mb-10 text-center text-primary-content bg-primary rounded-xl py-4 shadow">
+    Anagrafica Discenti
+  </h1>
+
+  <!-- Form Inserimento / Modifica -->
+  <div class="bg-base-200 p-6 rounded-xl shadow-md mb-12 border border-base-300">
+    <h2 class="text-2xl font-semibold mb-6 text-primary">
+      {{ editingDiscente ? 'Modifica Discente' : 'Aggiungi un nuovo discente' }}
+    </h2>
+
+    <form class="grid grid-cols-1 md:grid-cols-3 gap-6" (ngSubmit)="save()">
+      <div class="form-control">
+        <label class="label font-medium text-sm text-base-content">Nome</label>
+        <input
+          [(ngModel)]="newDiscente.nome"
+          name="nome"
+          class="input input-bordered w-full focus:input-primary"
+          required
+        />
+      </div>
+
+      <div class="form-control">
+        <label class="label font-medium text-sm text-base-content">Cognome</label>
+        <input
+          [(ngModel)]="newDiscente.cognome"
+          name="cognome"
+          class="input input-bordered w-full focus:input-primary"
+          required
+        />
+      </div>
+
+      <div class="form-control">
+        <label class="label font-medium text-sm text-base-content">Età</label>
+        <input
+          [(ngModel)]="newDiscente.eta"
+          name="eta"
+          type="number"
+          min="0"
+          class="input input-bordered w-full focus:input-primary"
+          required
+        />
+      </div>
+
+      <div class="form-control">
+        <label class="label font-medium text-sm text-base-content">Matricola</label>
+        <input
+          [(ngModel)]="newDiscente.matricola"
+          name="matricola"
+          class="input input-bordered w-full focus:input-primary"
+          required
+        />
+      </div>
+
+      <div class="form-control md:col-span-2">
+        <label class="label font-medium text-sm text-base-content">Città di Residenza</label>
+        <input
+          [(ngModel)]="newDiscente.cittaResidenza"
+          name="cittaResidenza"
+          class="input input-bordered w-full focus:input-primary"
+          required
+        />
+      </div>
+
+      <div class="md:col-span-3 text-end mt-2 flex justify-end gap-3">
+        <button type="submit" class="btn btn-primary px-8">
+          {{ editingDiscente ? 'Salva Modifica' : 'Salva' }}
+        </button>
+        <button
+          *ngIf="editingDiscente"
+          type="button"
+          class="btn btn-outline btn-warning px-8"
+          (click)="cancelEdit()"
+        >
+          ✖ Annulla
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <div class="bg-base-100 border border-base-300 rounded-xl shadow-md p-6">
+    <h2 class="text-2xl font-semibold mb-6 text-primary">Elenco Discenti</h2>
+
+    <div class="overflow-x-auto rounded-xl border border-base-300">
+      <table class="table table-md w-full">
+        <thead class="bg-primary text-primary-content text-sm uppercase tracking-wide">
+          <tr>
+            <th class="py-3 px-4 text-left">Nome</th>
+            <th class="py-3 px-4 text-left">Cognome</th>
+            <th class="py-3 px-4 text-center">Età</th>
+            <th class="py-3 px-4 text-center">Matricola</th>
+            <th class="py-3 px-4 text-left">Città</th>
+            <th class="py-3 px-4 text-center">Azioni</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let d of discenti" class="hover:bg-base-200 transition duration-150">
+            <td class="py-3 px-4 font-medium text-base-content">{{ d.nome }}</td>
+            <td class="py-3 px-4 text-base-content">{{ d.cognome }}</td>
+            <td class="py-3 px-4 text-center text-base-content">{{ d.eta }}</td>
+            <td class="py-3 px-4 text-center text-base-content">{{ d.matricola }}</td>
+            <td class="py-3 px-4 text-base-content">{{ d.cittaResidenza }}</td>
+            <td class="py-3 px-4 text-center flex justify-center gap-2">
+              <button class="btn btn-modifica" (click)="edit(d)">Modifica</button>
+              <button class="btn btn-elimina" (click)="delete(d.idDiscente)">Elimina</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div
+        *ngIf="discenti.length === 0"
+        class="text-center text-sm text-gray-500 mt-6 italic"
+      >
+        Nessun discente presente al momento.
+      </div>
+    </div>
+  </div>
+</div>
