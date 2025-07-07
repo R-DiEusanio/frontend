@@ -1,0 +1,123 @@
+<!-- Navbar -->
+<nav class="bg-white shadow-sm border-b border-gray-300">
+  <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+    <a href="/" class="text-3xl font-extrabold text-blue-900 hover:text-blue-700">Academy</a>
+    <ul class="flex space-x-8 text-lg font-medium text-gray-700">
+      <li><a href="/corsi" class="hover:text-blue-700">Corsi</a></li>
+      <li><a href="/docenti" class="hover:text-blue-700 border-b-2 border-blue-700 pb-1">Docenti</a></li>
+      <li><a href="/discenti" class="hover:text-blue-700">Discenti</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- Main Content -->
+<main class="max-w-5xl mx-auto p-8 bg-white mt-8 rounded-lg shadow-lg">
+
+  <h1 class="text-4xl font-semibold text-center text-blue-900 mb-10 tracking-wide">
+    Gestione Docenti
+  </h1>
+
+  <!-- Form Creazione / Modifica Docente -->
+  <section class="mb-12 border border-gray-300 rounded-lg p-6 bg-gray-50 shadow-inner">
+    <h2 class="text-2xl font-semibold text-gray-800 mb-6">
+      {{ editingDocente ? 'Modifica Docente' : 'Aggiungi un nuovo docente' }}
+    </h2>
+
+    <form class="grid grid-cols-1 md:grid-cols-3 gap-6" (ngSubmit)="save()">
+
+      <div class="form-control">
+        <label class="block mb-1 font-medium text-gray-700" for="nome">Nome</label>
+        <input
+          id="nome"
+          [(ngModel)]="newDocente.nome"
+          name="nome"
+          type="text"
+          class="w-full border border-gray-400 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600"
+          required
+        />
+      </div>
+
+      <div class="form-control">
+        <label class="block mb-1 font-medium text-gray-700" for="cognome">Cognome</label>
+        <input
+          id="cognome"
+          [(ngModel)]="newDocente.cognome"
+          name="cognome"
+          type="text"
+          class="w-full border border-gray-400 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600"
+          required
+        />
+      </div>
+
+      <div class="form-control">
+        <label class="block mb-1 font-medium text-gray-700" for="dataNascita">Data di Nascita</label>
+        <input
+          id="dataNascita"
+          [(ngModel)]="newDocente.dataNascita"
+          name="dataNascita"
+          type="date"
+          class="w-full border border-gray-400 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600"
+          required
+        />
+      </div>
+
+      <div class="md:col-span-3 flex justify-end gap-4 mt-6">
+        <button
+          type="submit"
+          class="bg-blue-700 text-white px-10 py-2 rounded font-semibold hover:bg-blue-800 transition"
+          [attr.aria-label]="editingDocente ? 'Salva modifica docente' : 'Salva nuovo docente'"
+        >
+          {{ editingDocente ? 'Salva Modifica' : 'Salva' }}
+        </button>
+        <button
+          *ngIf="editingDocente"
+          type="button"
+          class="border border-yellow-600 text-yellow-600 px-8 py-2 rounded font-semibold hover:bg-yellow-600 hover:text-gray-900 transition"
+          (click)="cancelEdit()"
+          aria-label="Annulla modifica docente"
+        >
+          Annulla
+        </button>
+      </div>
+
+    </form>
+  </section>
+
+  <!-- Card Docenti -->
+  <section>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <article
+        *ngFor="let d of docenti"
+        class="border border-gray-300 rounded-lg shadow hover:shadow-lg transition p-6 bg-white"
+      >
+        <h3 class="text-xl font-semibold text-blue-900 mb-3 tracking-wide">{{ d.nome }} {{ d.cognome }}</h3>
+        <p class="text-gray-700 mb-4"><strong>Data di Nascita:</strong> {{ d.dataNascita }}</p>
+
+        <div class="flex justify-end gap-3">
+          <button
+            class="bg-blue-700 text-white rounded px-4 py-2 font-semibold hover:bg-blue-800 transition"
+            (click)="edit(d)"
+            [attr.aria-label]="'Modifica docente ' + d.nome + ' ' + d.cognome"
+          >
+            Modifica
+          </button>
+          <button
+            class="bg-red-600 text-white rounded px-4 py-2 font-semibold hover:bg-red-700 transition"
+            (click)="delete(d.idDocente)"
+            [attr.aria-label]="'Elimina docente ' + d.nome + ' ' + d.cognome"
+          >
+            Elimina
+          </button>
+        </div>
+      </article>
+    </div>
+
+    <p
+      *ngIf="docenti.length === 0"
+      class="text-center text-gray-500 mt-10 italic text-lg font-light"
+    >
+      Nessun docente presente al momento.
+    </p>
+  </section>
+
+</main>

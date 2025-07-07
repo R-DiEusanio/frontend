@@ -1,119 +1,152 @@
-<div class="max-w-6xl mx-auto p-8">
-  <h1 class="text-4xl font-bold mb-10 text-center text-primary-content bg-primary rounded-xl py-4 shadow">
-    Anagrafica Discenti
+<!-- Navbar -->
+ <nav class="bg-white shadow-sm border-b border-gray-300">
+  <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+    <a href="/" class="text-3xl font-extrabold text-blue-900 hover:text-blue-700">Academy</a>
+    <ul class="flex space-x-8 text-lg font-medium text-gray-700">
+      <li><a href="/corsi" class="hover:text-blue-700">Corsi</a></li>
+      <li><a href="/docenti" class="hover:text-blue-700">Docenti</a></li>
+      <li><a href="/discenti" class="hover:text-blue-700 border-b-2 border-blue-700 pb-1">Discenti</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- Content -->
+<div class="max-w-6xl mx-auto p-8 bg-gray-100 text-gray-900 min-h-screen font-sans">
+
+  <h1 class="text-4xl font-semibold mb-10 text-center text-blue-900 tracking-wide">
+    Gestione Discenti
   </h1>
 
-  <!-- Form Inserimento / Modifica -->
-  <div class="bg-base-200 p-6 rounded-xl shadow-md mb-12 border border-base-300">
-    <h2 class="text-2xl font-semibold mb-6 text-primary">
+  <!-- Form Creazione / Modifica Discente -->
+  <section class="mb-12 border border-gray-300 rounded-lg p-6 bg-white shadow-lg">
+    <h2 class="text-2xl font-semibold text-gray-800 mb-6">
       {{ editingDiscente ? 'Modifica Discente' : 'Aggiungi un nuovo discente' }}
     </h2>
 
     <form class="grid grid-cols-1 md:grid-cols-3 gap-6" (ngSubmit)="save()">
       <div class="form-control">
-        <label class="label font-medium text-sm text-base-content">Nome</label>
+        <label for="nome" class="block mb-1 font-medium text-gray-700">Nome</label>
         <input
+          id="nome"
           [(ngModel)]="newDiscente.nome"
           name="nome"
-          class="input input-bordered w-full focus:input-primary"
+          type="text"
           required
+          class="w-full border border-gray-400 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600"
         />
       </div>
 
       <div class="form-control">
-        <label class="label font-medium text-sm text-base-content">Cognome</label>
+        <label for="cognome" class="block mb-1 font-medium text-gray-700">Cognome</label>
         <input
+          id="cognome"
           [(ngModel)]="newDiscente.cognome"
           name="cognome"
-          class="input input-bordered w-full focus:input-primary"
+          type="text"
           required
+          class="w-full border border-gray-400 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600"
         />
       </div>
 
       <div class="form-control">
-        <label class="label font-medium text-sm text-base-content">Età</label>
+        <label for="eta" class="block mb-1 font-medium text-gray-700">Età</label>
         <input
+          id="eta"
           [(ngModel)]="newDiscente.eta"
           name="eta"
           type="number"
           min="0"
-          class="input input-bordered w-full focus:input-primary"
           required
+          class="w-full border border-gray-400 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600"
         />
       </div>
 
       <div class="form-control">
-        <label class="label font-medium text-sm text-base-content">Matricola</label>
+        <label for="matricola" class="block mb-1 font-medium text-gray-700">Matricola</label>
         <input
+          id="matricola"
           [(ngModel)]="newDiscente.matricola"
           name="matricola"
-          class="input input-bordered w-full focus:input-primary"
+          type="text"
           required
+          class="w-full border border-gray-400 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600"
         />
       </div>
 
       <div class="form-control md:col-span-2">
-        <label class="label font-medium text-sm text-base-content">Città di Residenza</label>
+        <label for="cittaResidenza" class="block mb-1 font-medium text-gray-700">Città di Residenza</label>
         <input
+          id="cittaResidenza"
           [(ngModel)]="newDiscente.cittaResidenza"
           name="cittaResidenza"
-          class="input input-bordered w-full focus:input-primary"
+          type="text"
           required
+          class="w-full border border-gray-400 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600"
         />
       </div>
 
-      <div class="md:col-span-3 text-end mt-2 flex justify-end gap-3">
-        <button type="submit" class="btn btn-primary px-8">
+      <div class="md:col-span-3 flex justify-end gap-4 mt-6">
+        <button
+          type="submit"
+          class="bg-blue-700 text-white px-10 py-2 rounded font-semibold hover:bg-blue-800 transition"
+          [attr.aria-label]="editingDiscente ? 'Salva modifica discente' : 'Salva nuovo discente'"
+        >
           {{ editingDiscente ? 'Salva Modifica' : 'Salva' }}
         </button>
         <button
           *ngIf="editingDiscente"
           type="button"
-          class="btn btn-outline btn-warning px-8"
+          class="border border-yellow-600 text-yellow-600 px-8 py-2 rounded font-semibold hover:bg-yellow-600 hover:text-gray-900 transition"
           (click)="cancelEdit()"
+          aria-label="Annulla modifica discente"
         >
-          ✖ Annulla
+          Annulla
         </button>
       </div>
     </form>
-  </div>
+  </section>
 
-  <div class="bg-base-100 border border-base-300 rounded-xl shadow-md p-6">
-    <h2 class="text-2xl font-semibold mb-6 text-primary">Elenco Discenti</h2>
-
-    <div class="overflow-x-auto rounded-xl border border-base-300">
-      <table class="table table-md w-full">
-        <thead class="bg-primary text-primary-content text-sm uppercase tracking-wide">
-          <tr>
-            <th class="py-3 px-4 text-left">Nome</th>
-            <th class="py-3 px-4 text-left">Cognome</th>
-            <th class="py-3 px-4 text-center">Età</th>
-            <th class="py-3 px-4 text-center">Matricola</th>
-            <th class="py-3 px-4 text-left">Città</th>
-            <th class="py-3 px-4 text-center">Azioni</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let d of discenti" class="hover:bg-base-200 transition duration-150">
-            <td class="py-3 px-4 font-medium text-base-content">{{ d.nome }}</td>
-            <td class="py-3 px-4 text-base-content">{{ d.cognome }}</td>
-            <td class="py-3 px-4 text-center text-base-content">{{ d.eta }}</td>
-            <td class="py-3 px-4 text-center text-base-content">{{ d.matricola }}</td>
-            <td class="py-3 px-4 text-base-content">{{ d.cittaResidenza }}</td>
-            <td class="py-3 px-4 text-center flex justify-center gap-2">
-              <button class="btn btn-modifica" (click)="edit(d)">Modifica</button>
-              <button class="btn btn-elimina" (click)="delete(d.idDiscente)">Elimina</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-
-      <div
-        *ngIf="discenti.length === 0"
-        class="text-center text-sm text-gray-500 mt-6 italic"
+  <!-- Lista Discenti in Card -->
+  <section>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <article
+        *ngFor="let d of discenti"
+        class="border border-gray-300 rounded-lg shadow hover:shadow-lg transition p-6 bg-white"
       >
-        Nessun discente presente al momento.
-      </div>
+        <h3 class="text-xl font-semibold text-blue-900 mb-3 tracking-wide">
+          {{ d.nome }} {{ d.cognome }}
+        </h3>
+        <p class="text-gray-700 mb-1"><strong>Età:</strong> {{ d.eta }}</p>
+        <p class="text-gray-700 mb-1"><strong>Matricola:</strong> {{ d.matricola }}</p>
+        <p class="text-gray-700 mb-4"><strong>Città:</strong> {{ d.cittaResidenza }}</p>
+
+        <div class="flex justify-end gap-3">
+          <button
+            class="bg-blue-700 text-white rounded px-4 py-2 font-semibold hover:bg-blue-800 transition"
+            (click)="edit(d)"
+            type="button"
+            [attr.aria-label]="'Modifica discente ' + d.nome + ' ' + d.cognome"
+          >
+            Modifica
+          </button>
+          <button
+            class="bg-red-600 text-white rounded px-4 py-2 font-semibold hover:bg-red-700 transition"
+            (click)="delete(d.idDiscente)"
+            type="button"
+            [attr.aria-label]="'Elimina discente ' + d.nome + ' ' + d.cognome"
+          >
+            Elimina
+          </button>
+        </div>
+      </article>
     </div>
-  </div>
+
+    <p
+      *ngIf="discenti.length === 0"
+      class="text-center text-gray-500 mt-10 italic text-lg font-light"
+    >
+      Nessun discente presente al momento.
+    </p>
+  </section>
+
 </div>
